@@ -6,7 +6,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final prefs = sl<SharedPreferences>();
       return _pageBuilder((context) {
         if (prefs.getBool(kFirstTimerKey) ?? true) {
-          return const OnBoardingScreen();
+          return BlocProvider(
+              create: (_) => sl<OnBoardingCubit>(),
+              child: const OnBoardingScreen());
         } else {
           return const PageUnderConstruction();
         }

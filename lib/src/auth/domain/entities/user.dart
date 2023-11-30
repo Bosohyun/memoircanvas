@@ -27,7 +27,7 @@ class LocalUser extends Equatable {
   final int numberOfJournals;
   final String fullName;
 
-  bool get isAdmin => email == 'yewep47404@xgh6.com';
+  bool get isAdmin => email == 'kbh900220@gmail.com';
 
   @override
   List<Object?> get props => [

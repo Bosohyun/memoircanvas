@@ -5,8 +5,8 @@ class LocalUserModel extends LocalUser {
   const LocalUserModel({
     required super.uid,
     required super.email,
-    required super.numberOfJournals,
     required super.fullName,
+    required super.numberOfJournals,
     super.profilePic,
     super.bio,
   });
@@ -15,34 +15,34 @@ class LocalUserModel extends LocalUser {
       : this(
           uid: '',
           email: '',
-          numberOfJournals: 0,
           fullName: '',
+          numberOfJournals: 0,
         );
 
   LocalUserModel.fromMap(DataMap map)
       : super(
             uid: map['uid'] as String,
             email: map['email'] as String,
-            numberOfJournals: (map['numberOfJournals'] as num).toInt(),
             fullName: map['fullName'] as String,
+            numberOfJournals: (map['numberOfJournals'] as num).toInt(),
             profilePic: map['profilePic'] as String?,
             bio: map['bio'] as String?);
 
-  LocalUserModel copyWith({
-    String? uid,
-    String? email,
-    String? profilePic,
-    String? bio,
-    int? numberOfJournals,
-    String? fullName,
-  }) {
+  LocalUserModel copyWith(
+      {String? uid,
+      String? email,
+      String? fullName,
+      int? numberOfJournals,
+      String? profilePic,
+      String? bio,
+      v}) {
     return LocalUserModel(
       uid: uid ?? this.uid,
       email: email ?? this.email,
+      fullName: fullName ?? this.fullName,
+      numberOfJournals: numberOfJournals ?? this.numberOfJournals,
       profilePic: profilePic ?? this.profilePic,
       bio: bio ?? this.bio,
-      numberOfJournals: numberOfJournals ?? this.numberOfJournals,
-      fullName: fullName ?? this.fullName,
     );
   }
 
@@ -50,10 +50,10 @@ class LocalUserModel extends LocalUser {
     return {
       'uid': uid,
       'email': email,
+      'fullName': fullName,
+      'numberOfJournals': numberOfJournals,
       'profilePic': profilePic,
       'bio': bio,
-      'numberOfJournals': numberOfJournals,
-      'fullName': fullName,
     };
   }
 }
