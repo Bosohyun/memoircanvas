@@ -19,7 +19,7 @@ class OnBoardingLocalDataSourceImpl implements OnBoardingLocalDataSource {
   @override
   Future<void> cacheFirstTimer() {
     try {
-      return _prefs.setBool(kFirstTimerKey, true);
+      return _prefs.setBool(kFirstTimerKey, false);
     } catch (e) {
       throw CacheException(message: e.toString());
     }

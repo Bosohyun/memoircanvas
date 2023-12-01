@@ -7,13 +7,33 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _pageBuilder((context) {
         if (prefs.getBool(kFirstTimerKey) ?? true) {
           return BlocProvider(
-              create: (_) => sl<OnBoardingCubit>(),
-              child: const OnBoardingScreen());
-        } else {
-          return const PageUnderConstruction();
+            create: (_) => sl<OnBoardingCubit>(),
+            child: const OnBoardingScreen(),
+          );
+        } else if (sl<FirebaseAuth>().currentUser != null) {
+          final user = sl<FirebaseAuth>().currentUser!;
+          final localUser = LocalUserModel(
+            uid: user.uid,
+            email: user.email ?? '',
+            numberOfJournals: 0,
+            fullName: user.displayName ?? '',
+          );
+          context.userProvider.initUser(localUser);
         }
+        return BlocProvider(
+          create: (_) => sl<AuthBloc>(),
+          child: const SignInScreen(),
+        );
       }, settings: settings);
 
+    case SignInScreen.routeName:
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<AuthBloc>(),
+          child: const SignInScreen(),
+        ),
+        settings: settings,
+      );
     default:
       return _pageBuilder((_) => const PageUnderConstruction(),
           settings: settings);

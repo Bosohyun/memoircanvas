@@ -48,6 +48,8 @@ dependencies:
   firebase_ui_auth: ^1.10.0
   uuid: ^4.2.1
   firebase_storage: ^11.5.2
+  provider: ^6.1.1
+  google_fonts: ^6.1.0
 
 
 dev_dependencies:
@@ -79,6 +81,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lottie/
+    - assets/fonts/
  
 
   # An image asset can refer to one or more resolution-specific "variants", see
