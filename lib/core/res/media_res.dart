@@ -9,4 +9,6 @@ class MediaRes {
       '$_baseLottie/page_under_construction.json';
 
   static const onBoardingBackground = '$_baseImage/onBoarding_background.png';
+  static const authGradientBackground =
+      '$_baseImage/auth_gradient_background.png';
 }

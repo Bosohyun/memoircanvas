@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
+import 'package:memoircanvas/core/res/colors.dart';
 import 'package:memoircanvas/core/res/fonts.dart';
 import 'package:memoircanvas/core/services/injection_container.dart';
 import 'package:memoircanvas/core/services/router.dart';
@@ -32,9 +33,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'MemoirCanvas',
           theme: ThemeData(
-              useMaterial3: true,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              fontFamily: Fonts.poppins),
+            useMaterial3: true,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            fontFamily: Fonts.poppins,
+            colorScheme: ColorScheme.fromSwatch(
+              accentColor: Colours.primaryColour,
+            ),
+          ),
           onGenerateRoute: generateRoute,
         ));
   }

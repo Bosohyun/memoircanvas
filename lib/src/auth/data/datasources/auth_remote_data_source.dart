@@ -198,7 +198,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   Future<void> _setUserData(User user, String fallbackEmail) async {
-    await _cloudStoreClient.collection('user').doc(user.uid).set(
+    await _cloudStoreClient.collection('users').doc(user.uid).set(
           LocalUserModel(
             uid: user.uid,
             email: user.email ?? fallbackEmail,
