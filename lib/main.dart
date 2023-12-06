@@ -8,6 +8,7 @@ import 'package:memoircanvas/core/services/injection_container.dart';
 import 'package:memoircanvas/core/services/router.dart';
 
 import 'package:memoircanvas/firebase_options.dart';
+import 'package:memoircanvas/src/dashboard/presentation/providers/dashboard_controller.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -28,7 +29,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(
+            create: (_) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => DashBoardController(),
+          ),
         ],
         child: MaterialApp(
           title: 'MemoirCanvas',

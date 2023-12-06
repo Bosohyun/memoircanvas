@@ -7,6 +7,7 @@ import 'package:memoircanvas/core/common/views/page_under_construction.dart';
 import 'package:memoircanvas/src/auth/data/models/user_model.dart';
 import 'package:memoircanvas/src/auth/presentation/bloc/auth_bloc.dart';
 import 'package:memoircanvas/src/auth/presentation/views/sign_up_screen.dart';
+import 'package:memoircanvas/src/dashboard/presentation/views/dashboard.dart';
 import 'package:memoircanvas/src/on_boarding/data/datasources/on_boarding_local_data_source.dart';
 import 'package:memoircanvas/src/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:memoircanvas/src/on_boarding/presentation/views/on_boarding_screen.dart';

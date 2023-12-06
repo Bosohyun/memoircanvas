@@ -1,0 +1,14 @@
+{
+    "id": "_empty.id",
+    "title": "_empty.title",
+    "weather": "_empty.weather",
+    "imageURL": "_empty.imageURL",
+    "diary": "_empty.diary",
+    "createdAt": {
+      "_seconds": 1677483548,
+      "_nanoseconds": 123456000
+    }
+
+  }
+  
+
