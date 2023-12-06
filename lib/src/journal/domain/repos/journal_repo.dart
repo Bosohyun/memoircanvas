@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:memoircanvas/core/utils/typedefs.dart';
 import 'package:memoircanvas/src/journal/domain/entities/journal.dart';
 
@@ -6,7 +8,5 @@ abstract class JournalRepo {
 
   ResultFuture<List<Journal>> getJournals();
 
-  ResultFuture<void> addJournal(Journal journal);
-
-  ResultFuture<String> generateJournalImage(String text);
+  ResultFuture<void> addJournal(Uint8List imageBytes, Journal journal);
 }

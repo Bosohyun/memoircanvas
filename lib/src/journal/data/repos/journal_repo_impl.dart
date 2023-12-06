@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dartz/dartz.dart';
 import 'package:memoircanvas/core/errors/exceptions.dart';
 import 'package:memoircanvas/core/errors/failures.dart';
@@ -13,9 +15,9 @@ class JournalRepoImpl implements JournalRepo {
   final JournalRemoteDataSrc _remoteDataSrc;
 
   @override
-  ResultFuture<void> addJournal(Journal journal) async {
+  ResultFuture<void> addJournal(Uint8List imageBytes, Journal journal) async {
     try {
-      await _remoteDataSrc.addJournal(journal);
+      await _remoteDataSrc.addJournal(imageBytes, journal);
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

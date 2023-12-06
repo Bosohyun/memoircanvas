@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class Journal extends Equatable {
   const Journal({
     required this.id,
+    required this.userId,
     required this.title,
     required this.weather,
     required this.imageURL,
@@ -11,14 +12,18 @@ class Journal extends Equatable {
   });
 
   Journal.empty()
-      : id = '',
-        title = '',
-        weather = '',
-        imageURL = '',
-        diary = '',
-        createdAt = DateTime.now();
+      : this(
+          id: '_empty.id',
+          userId: '_empty.userId',
+          title: '_empty.title',
+          weather: '_empty.weather',
+          imageURL: '_empty.imageURL',
+          diary: '_empty.diary',
+          createdAt: DateTime.now(),
+        );
 
   final String id;
+  final String userId;
   final String title;
   final String weather;
   final String imageURL;

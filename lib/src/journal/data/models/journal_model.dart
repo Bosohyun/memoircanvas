@@ -5,6 +5,7 @@ import 'package:memoircanvas/src/journal/domain/entities/journal.dart';
 class JournalModel extends Journal {
   const JournalModel({
     required super.id,
+    required super.userId,
     required super.title,
     required super.weather,
     required super.imageURL,
@@ -15,6 +16,7 @@ class JournalModel extends Journal {
   JournalModel.empty()
       : this(
           id: '_empty.id',
+          userId: '_empty.userId',
           title: '_empty.title',
           weather: '_empty.weather',
           imageURL: '_empty.imageURL',
@@ -25,6 +27,7 @@ class JournalModel extends Journal {
   JournalModel.fromMap(DataMap map)
       : super(
           id: map['id'] as String,
+          userId: map['userId'] as String,
           title: map['title'] as String,
           weather: map['weather'] as String,
           imageURL: map['imageURL'] as String,
@@ -34,6 +37,7 @@ class JournalModel extends Journal {
 
   JournalModel copyWith({
     String? id,
+    String? userId,
     String? title,
     String? weather,
     String? imageURL,
@@ -42,6 +46,7 @@ class JournalModel extends Journal {
   }) {
     return JournalModel(
       id: id ?? this.id,
+      userId: userId ?? this.userId,
       title: title ?? this.title,
       weather: weather ?? this.weather,
       imageURL: imageURL ?? this.imageURL,
@@ -53,6 +58,7 @@ class JournalModel extends Journal {
   DataMap toMap() {
     return {
       'id': id,
+      'userId': userId,
       'title': title,
       'weather': weather,
       'imageURL': imageURL,

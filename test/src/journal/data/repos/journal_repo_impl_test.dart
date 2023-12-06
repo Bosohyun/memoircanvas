@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:memoircanvas/core/errors/exceptions.dart';
@@ -20,6 +22,7 @@ void main() {
     remoteDataSrc = MockJournalRemoteDataSrc();
     repoImpl = JournalRepoImpl(remoteDataSrc);
     registerFallbackValue(tJournal);
+    registerFallbackValue(Uint8List(0));
   });
 
   const tException = ServerException(
@@ -27,17 +30,23 @@ void main() {
     statusCode: '500',
   );
 
+  final tJournalWithUrl = tJournal.copyWith(
+    imageURL: 'https://www.google.com',
+  );
+
+  final tImageBytes = Uint8List(0);
+
   group('addJournal', () {
     test(
-      'should complete succeefully when call to remote source is successful',
+      'should complete succeefully when call to remote source is successful p',
       () async {
-        when(() => remoteDataSrc.addJournal(any())).thenAnswer(
+        when(() => remoteDataSrc.addJournal(any(), any())).thenAnswer(
           (_) async => Future.value(),
         );
 
-        final result = await repoImpl.addJournal(tJournal);
+        final result = await repoImpl.addJournal(tImageBytes, tJournal);
         expect(result, const Right<dynamic, void>(null));
-        verify(() => remoteDataSrc.addJournal(tJournal)).called(1);
+        verify(() => remoteDataSrc.addJournal(tImageBytes, tJournal)).called(1);
         verifyNoMoreInteractions(remoteDataSrc);
       },
     );
@@ -45,28 +54,28 @@ void main() {
     test(
         'should retrun [ServerFailure] when call to remote source is '
         'unsuccessful', () async {
-      when(() => remoteDataSrc.addJournal(any())).thenThrow(tException);
+      when(() => remoteDataSrc.addJournal(any(), any())).thenThrow(tException);
 
-      final result = await repoImpl.addJournal(tJournal);
+      final result = await repoImpl.addJournal(tImageBytes, tJournal);
       expect(
         result,
         Left<Failure, void>(ServerFailure.fromException(tException)),
       );
 
-      verify(() => remoteDataSrc.addJournal(tJournal)).called(1);
+      verify(() => remoteDataSrc.addJournal(tImageBytes, tJournal)).called(1);
       verifyNoMoreInteractions(remoteDataSrc);
     });
   });
 
   group('getJournals', () {
     test(
-        'should return [List<Course>] when call to remote source is successful',
+        'should return [List<Journal>] when call to remote source is successful',
         () async {
       when(() => remoteDataSrc.getJournals())
           .thenAnswer((_) async => [tJournal]);
 
       final result = await repoImpl.getJournals();
-      expect(result, isA<Right<dynamic, List<Journal>>>);
+      expect(result, isA<Right<dynamic, List<Journal>>>());
 
       verify(() => remoteDataSrc.getJournals()).called(1);
       verifyNoMoreInteractions(remoteDataSrc);
