@@ -11,4 +11,6 @@ class MediaRes {
   static const onBoardingBackground = '$_baseImage/onBoarding_background.png';
   static const authGradientBackground =
       '$_baseImage/auth_gradient_background.png';
+  static const homeGradientBackground =
+      '$_baseImage/home_gradient_background.png';
 }

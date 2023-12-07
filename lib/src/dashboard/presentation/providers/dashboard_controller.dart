@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:memoircanvas/core/common/app/providers/tab_navigator.dart';
+import 'package:memoircanvas/core/common/app/providers/temp_journal_provider.dart';
 import 'package:memoircanvas/core/common/views/persistent_view.dart';
+import 'package:memoircanvas/src/home/presentation/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class DashBoardController extends ChangeNotifier {
@@ -12,7 +13,14 @@ class DashBoardController extends ChangeNotifier {
     ChangeNotifierProvider(
       create: (_) => TabNavigator(
         TabItem(
-          child: const Placeholder(),
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => TempJournalProvider(),
+              ),
+            ],
+            child: const HomeView(),
+          ),
         ),
       ),
       child: const PersistentView(),
