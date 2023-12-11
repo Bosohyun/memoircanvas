@@ -14,36 +14,37 @@ class JournalDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(title: Text(journal.title)),
-        body: GradientBackground(
-          image: MediaRes.homeGradientBackground,
-          child: SafeArea(
-            child: ListView(padding: const EdgeInsets.all(20), children: [
-              SizedBox(
-                height: context.height * .3,
-                child: Center(child: Image.network(journal.imageURL)),
-              ),
-              const SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    journal.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(title: Text(journal.title)),
+      body: GradientBackground(
+        image: MediaRes.homeGradientBackground,
+        child: SafeArea(
+          child: ListView(padding: const EdgeInsets.all(20), children: [
+            SizedBox(
+              height: context.height * .3,
+              child: Center(child: Image.network(journal.imageURL)),
+            ),
+            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  journal.title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    journal.diary,
-                  )
-                ],
-              ),
-            ]),
-          ),
-        ));
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  journal.diary,
+                )
+              ],
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }

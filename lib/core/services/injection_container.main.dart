@@ -4,6 +4,7 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   await _initOnBoarding();
+  await _initJournal();
   await _initAuth();
 }
 
@@ -50,4 +51,24 @@ Future<void> _initAuth() async {
     ..registerLazySingleton(() => FirebaseAuth.instance)
     ..registerLazySingleton(() => FirebaseFirestore.instance)
     ..registerLazySingleton(() => FirebaseStorage.instance);
+}
+
+Future<void> _initJournal() async {
+  sl
+    ..registerFactory(
+      () => JournalCubit(
+        addJournal: sl(),
+        getJournals: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => AddJournal(sl()))
+    ..registerLazySingleton(() => GetJournals(sl()))
+    ..registerLazySingleton<JournalRepo>(() => JournalRepoImpl(sl()))
+    ..registerLazySingleton<JournalRemoteDataSrc>(
+      () => JournalRemoteDataSrcImpl(
+        firestore: sl(),
+        storage: sl(),
+        auth: sl(),
+      ),
+    );
 }

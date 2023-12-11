@@ -13,6 +13,10 @@ class IField extends StatelessWidget {
     this.keyboardType,
     this.hintStyle,
     this.overrideValidator = false,
+    this.maxLine = 1,
+    this.minLine = 1,
+    this.borderRadious = 90,
+    this.contentVerticalPadding = 15,
     super.key,
   });
 
@@ -27,6 +31,10 @@ class IField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool overrideValidator;
   final TextStyle? hintStyle;
+  final int? maxLine;
+  final int? minLine;
+  final double borderRadious;
+  final double contentVerticalPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +56,18 @@ class IField extends StatelessWidget {
       readOnly: readOnly,
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(90),
+          borderRadius: BorderRadius.circular(borderRadious),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(
-            90,
+            borderRadious,
           ),
           borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
           ),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: 20, vertical: contentVerticalPadding),
         filled: filled,
         fillColor: fillColor,
         suffixIcon: suffixIcon,
@@ -69,6 +78,8 @@ class IField extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
       ),
+      maxLines: maxLine,
+      minLines: minLine,
     );
   }
 }

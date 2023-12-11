@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          title: 'MemoirCanvas',
+          title: 'Memoir Canvas',
           theme: ThemeData(
             useMaterial3: true,
             visualDensity: VisualDensity.adaptivePlatformDensity,

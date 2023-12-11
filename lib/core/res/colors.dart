@@ -12,7 +12,7 @@ class Colours {
   ];
 
   /// #458CFF
-  static const primaryColour = Color(0xFF458CFF);
+  static const primaryColour = Color.fromARGB(255, 74, 109, 167);
 
   /// #757C8E
   static const neutralTextColour = Color(0xFF757C8E);
