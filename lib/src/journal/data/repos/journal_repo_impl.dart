@@ -33,4 +33,24 @@ class JournalRepoImpl implements JournalRepo {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<String> genJournalImage(String journal) async {
+    try {
+      final imageUrl = await _remoteDataSrc.genJournalImage(journal);
+      return Right(imageUrl);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> deleteJournal(String journalId) async {
+    try {
+      await _remoteDataSrc.deleteJournal(journalId);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

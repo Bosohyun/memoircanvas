@@ -1,11 +1,11 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:typed_data';
 
-import 'package:memoircanvas/core/utils/constants.dart';
-import 'package:memoircanvas/core/utils/core_utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class JournalUtils {
   const JournalUtils._();
@@ -15,28 +15,6 @@ class JournalUtils {
     return response.bodyBytes;
   }
 
-  static Future<String?> generateImage(
-      {required String journal, required BuildContext context}) async {
-    final uri = Uri.parse('https://api.openai.com/v1/images/generations');
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $openAIAPI',
-    };
-    final body = jsonEncode(
-        {"model": "dall-e-3", "prompt": journal, "n": 1, "size": "1024x1024"});
-    final response = await http.post(uri, headers: headers, body: body);
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-
-      return responseData['data'][0]['url'];
-    } else {
-      if (context.mounted) {
-        CoreUtils.showSnackBar(context, 'Failed to generate image');
-      }
-      return null;
-    }
-  }
-
   static openTempJournal(BuildContext context, {bool dismissble = true}) {
     showDialog(
       context: context,
@@ -44,7 +22,7 @@ class JournalUtils {
       builder: (context) => WillPopScope(
         onWillPop: () async => dismissble,
         child: Dialog(
-          insetPadding: EdgeInsets.all(10),
+          insetPadding: const EdgeInsets.all(10),
           backgroundColor: Colors.transparent,
           child: Container(
             height: 200,
@@ -54,5 +32,28 @@ class JournalUtils {
         ),
       ),
     );
+  }
+
+  static Future<XFile?> pickMedia({
+    required bool isGallery,
+  }) async {
+    final source = isGallery ? ImageSource.gallery : ImageSource.camera;
+    final pickedFile = await ImagePicker().pickImage(source: source);
+
+    if (pickedFile == null) return null;
+
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: pickedFile.path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+      ],
+    );
+
+    if (croppedFile == null) {
+      return null;
+    } else {
+      return XFile(croppedFile.path);
+    }
   }
 }

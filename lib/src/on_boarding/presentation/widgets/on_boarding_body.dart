@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:memoircanvas/core/extensions/context_extension.dart';
-import 'package:memoircanvas/core/res/colors.dart';
-import 'package:memoircanvas/core/res/fonts.dart';
+
 import 'package:memoircanvas/src/on_boarding/domain/entities/page_content.dart';
 import 'package:memoircanvas/src/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:memoircanvas/src/on_boarding/presentation/widgets/on_boarding_button.dart';
 
 class OnBoardingBody extends StatelessWidget {
   const OnBoardingBody({required this.pageContent, super.key});
@@ -19,7 +19,7 @@ class OnBoardingBody extends StatelessWidget {
       children: [
         Image.asset(
           pageContent.image,
-          height: context.height * .4,
+          height: context.height * .35,
         ),
         SizedBox(
           height: context.height * .03,
@@ -28,45 +28,30 @@ class OnBoardingBody extends StatelessWidget {
             padding: const EdgeInsets.all(20).copyWith(bottom: 0),
             child: Column(
               children: [
-                Text(
-                  pageContent.title,
-                  style: const TextStyle(
-                    fontFamily: Fonts.aeonik,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    pageContent.title,
+                    style: context.theme.textTheme.displayLarge,
+                    textAlign: TextAlign.left,
                   ),
                 ),
                 SizedBox(
-                  height: context.height * .02,
+                  height: context.height * .03,
                 ),
                 Text(
                   pageContent.description,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14),
+                  style: context.theme.textTheme.displaySmall,
                 ),
                 SizedBox(
-                  height: context.height * .05,
+                  height: context.height * .10,
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 50,
-                      vertical: 17,
-                    ),
-                    backgroundColor: Colours.primaryColour,
-                    foregroundColor: Colors.white,
-                  ),
+                OnBoardinigButton(
+                  text: "Get Started",
                   onPressed: () {
                     context.read<OnBoardingCubit>().cacheFirstTimer();
                   },
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(
-                      fontFamily: Fonts.aeonik,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
+                ),
               ],
             ))
       ],

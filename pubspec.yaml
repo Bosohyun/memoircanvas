@@ -55,6 +55,14 @@ dependencies:
   http: ^1.1.0
   font_awesome_flutter: ^10.6.0
   auto_size_text: ^3.0.0
+  weather_icons: ^3.0.0
+  table_calendar: ^3.0.9
+  flutter_cache_manager: ^3.3.1
+  flutter_slidable: ^3.0.1
+  image_cropper: ^5.0.1
+  cached_network_image: ^3.3.0
+  fast_image_resizer: ^0.0.2
+  flutter_dotenv: ^5.1.0
 
 
 
@@ -88,6 +96,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/fonts/
+    - .env
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

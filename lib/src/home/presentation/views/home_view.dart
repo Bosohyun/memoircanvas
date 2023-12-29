@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memoircanvas/core/common/widgets/gradient_background.dart';
-import 'package:memoircanvas/core/res/media_res.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
+
 import 'package:memoircanvas/src/home/presentation/refactors/home_body.dart';
 
 class HomeView extends StatelessWidget {
@@ -10,12 +10,12 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Memoir Canvas'),
+        title: Text(
+          'Memoir Canvas',
+          style: context.theme.textTheme.displayLarge,
+        ),
       ),
-      body: const GradientBackground(
-        image: MediaRes.homeGradientBackground,
-        child: HomeBody(),
-      ),
+      body: const SafeArea(child: HomeBody()),
     );
   }
 }

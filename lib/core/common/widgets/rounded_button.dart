@@ -1,5 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:memoircanvas/core/res/colors.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
 
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
@@ -19,12 +20,15 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: buttonColor ?? Colours.primaryColour,
+        backgroundColor: buttonColor ?? context.theme.colorScheme.primary,
         foregroundColor: labelColor ?? Colors.white,
+        elevation: 6,
         minimumSize: const Size(double.maxFinite, 50),
       ),
       onPressed: onPressed,
-      child: Text(label),
+      child: AutoSizeText(
+        label,
+      ),
     );
   }
 }

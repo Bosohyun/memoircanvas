@@ -1,20 +1,26 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
 
-class BestButton extends StatefulWidget {
-  const BestButton({required this.text, this.onPressed, super.key});
+class OnBoardinigButton extends StatefulWidget {
+  const OnBoardinigButton({
+    required this.text,
+    this.onPressed,
+    super.key,
+  });
 
   final String text;
   final Function()? onPressed;
 
   @override
-  State<BestButton> createState() => _BestButtonState();
+  State<OnBoardinigButton> createState() => _OnBoardinigButtonState();
 }
 
 enum ButtonState { init, loading, done }
 
-class _BestButtonState extends State<BestButton> {
+class _OnBoardinigButtonState extends State<OnBoardinigButton> {
   bool isAnimating = true;
+
   ButtonState state = ButtonState.init;
   @override
   Widget build(BuildContext context) {
@@ -37,19 +43,20 @@ class _BestButtonState extends State<BestButton> {
   Widget buildButton() => OutlinedButton(
         style: OutlinedButton.styleFrom(
             shape: const StadiumBorder(),
-            side: const BorderSide(
+            side: BorderSide(
               width: 2,
-              color: Colors.indigo,
+              color: context.theme.colorScheme.primary,
             ),
-            backgroundColor: Colors.indigo),
+            backgroundColor: context.theme.colorScheme.primary),
         onPressed: () async {
           if (!mounted) return;
           setState(() => state = ButtonState.loading);
-          await widget.onPressed!();
+          await Future.delayed(const Duration(milliseconds: 1500));
 
           if (!mounted) return;
           setState(() => state = ButtonState.done);
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(const Duration(milliseconds: 1000));
+          await widget.onPressed!();
 
           if (!mounted) return;
           setState(() => state = ButtonState.init);
@@ -57,7 +64,7 @@ class _BestButtonState extends State<BestButton> {
         child: AutoSizeText(
           widget.text,
           style: const TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               color: Colors.white,
               letterSpacing: 1.5,
               fontWeight: FontWeight.w900),
@@ -67,7 +74,7 @@ class _BestButtonState extends State<BestButton> {
       );
 
   Widget buildSmallButton(bool isDone) {
-    final color = isDone ? Colors.green : Colors.indigo;
+    final color = isDone ? Colors.green : context.theme.colorScheme.primary;
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,

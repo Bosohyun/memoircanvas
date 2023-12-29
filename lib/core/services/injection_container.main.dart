@@ -59,10 +59,14 @@ Future<void> _initJournal() async {
       () => JournalCubit(
         addJournal: sl(),
         getJournals: sl(),
+        genJournalImage: sl(),
+        deleteJournal: sl(),
       ),
     )
     ..registerLazySingleton(() => AddJournal(sl()))
     ..registerLazySingleton(() => GetJournals(sl()))
+    ..registerLazySingleton(() => GenJournalImage(sl()))
+    ..registerLazySingleton(() => DeleteJournal(sl()))
     ..registerLazySingleton<JournalRepo>(() => JournalRepoImpl(sl()))
     ..registerLazySingleton<JournalRemoteDataSrc>(
       () => JournalRemoteDataSrcImpl(

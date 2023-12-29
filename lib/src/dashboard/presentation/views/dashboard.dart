@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
-import 'package:memoircanvas/core/res/colors.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
+
 import 'package:memoircanvas/src/auth/data/models/user_model.dart';
 import 'package:memoircanvas/src/dashboard/presentation/providers/dashboard_controller.dart';
 import 'package:memoircanvas/src/dashboard/presentation/utils/dashboard_utils.dart';
@@ -39,13 +40,14 @@ class _DashboardState extends State<Dashboard> {
         return Consumer<DashBoardController>(
           builder: (_, controller, __) {
             return Scaffold(
+              backgroundColor: context.theme.colorScheme.background,
               body: IndexedStack(
                 index: controller.currentIndex,
                 children: controller.screens,
               ),
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: controller.currentIndex,
-                backgroundColor: Colors.white,
+                backgroundColor: context.theme.colorScheme.background,
                 elevation: 8,
                 onTap: controller.changeIndex,
                 items: [
@@ -55,11 +57,11 @@ class _DashboardState extends State<Dashboard> {
                           ? IconlyBold.home
                           : IconlyLight.home,
                       color: controller.currentIndex == 0
-                          ? Colours.primaryColour
+                          ? context.theme.colorScheme.primary
                           : Colors.grey,
                     ),
                     label: 'Home',
-                    backgroundColor: Colors.white,
+                    backgroundColor: context.theme.colorScheme.primary,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
@@ -67,11 +69,23 @@ class _DashboardState extends State<Dashboard> {
                           ? IconlyBold.calendar
                           : IconlyLight.calendar,
                       color: controller.currentIndex == 1
-                          ? Colours.primaryColour
+                          ? context.theme.colorScheme.primary
                           : Colors.grey,
                     ),
                     label: 'Reminiscence',
-                    backgroundColor: Colors.white,
+                    backgroundColor: context.theme.colorScheme.primary,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      controller.currentIndex == 2
+                          ? IconlyBold.setting
+                          : IconlyLight.setting,
+                      color: controller.currentIndex == 2
+                          ? context.theme.colorScheme.primary
+                          : Colors.grey,
+                    ),
+                    label: 'Settings',
+                    backgroundColor: context.theme.colorScheme.primary,
                   ),
                 ],
               ),

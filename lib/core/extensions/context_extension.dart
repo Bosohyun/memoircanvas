@@ -11,6 +11,8 @@ extension ContextExt on BuildContext {
 
   Size get size => mediaQuery.size;
 
+  bool get isDartMode => theme.brightness == Brightness.dark;
+
   double get width => size.width;
 
   double get height => size.height;

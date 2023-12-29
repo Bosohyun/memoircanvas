@@ -14,6 +14,8 @@ import 'package:memoircanvas/src/journal/data/datasources/journal_remote_data_sr
 import 'package:memoircanvas/src/journal/data/repos/journal_repo_impl.dart';
 import 'package:memoircanvas/src/journal/domain/repos/journal_repo.dart';
 import 'package:memoircanvas/src/journal/domain/usecases/add_journal.dart';
+import 'package:memoircanvas/src/journal/domain/usecases/delete_journal.dart';
+import 'package:memoircanvas/src/journal/domain/usecases/gen_journal_image.dart';
 import 'package:memoircanvas/src/journal/domain/usecases/get_journals.dart';
 import 'package:memoircanvas/src/journal/presentation/cubit/journal_cubit.dart';
 import 'package:memoircanvas/src/on_boarding/data/datasources/on_boarding_local_data_source.dart';

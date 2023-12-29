@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:memoircanvas/core/errors/failures.dart';
 import 'package:memoircanvas/src/journal/data/models/journal_model.dart';
 import 'package:memoircanvas/src/journal/domain/usecases/add_journal.dart';
+import 'package:memoircanvas/src/journal/domain/usecases/gen_journal_image.dart';
 import 'package:memoircanvas/src/journal/domain/usecases/get_journals.dart';
 import 'package:memoircanvas/src/journal/presentation/cubit/journal_cubit.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,9 +16,12 @@ class MockAddJournal extends Mock implements AddJournal {}
 
 class MockGetJournals extends Mock implements GetJournals {}
 
+class MockGenJournalImage extends Mock implements GenJournalImage {}
+
 void main() {
   late AddJournal addJournal;
   late GetJournals getJournals;
+  late GenJournalImage genJournalImage;
   late JournalCubit journalCubit;
 
   final tJournal = JournalModel.empty();
@@ -25,9 +29,11 @@ void main() {
   setUp(() {
     addJournal = MockAddJournal();
     getJournals = MockGetJournals();
+    genJournalImage = MockGenJournalImage();
     journalCubit = JournalCubit(
       addJournal: addJournal,
       getJournals: getJournals,
+      genJournalImage: genJournalImage,
     );
     registerFallbackValue(tJournal);
     registerFallbackValue(Uint8List(0));

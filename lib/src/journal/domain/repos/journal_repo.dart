@@ -9,4 +9,8 @@ abstract class JournalRepo {
   ResultFuture<List<Journal>> getJournals();
 
   ResultFuture<void> addJournal(Uint8List imageBytes, Journal journal);
+
+  ResultFuture<String> genJournalImage(String journal);
+
+  ResultFuture<void> deleteJournal(String journalId);
 }

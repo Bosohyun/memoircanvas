@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
 
 class IField extends StatelessWidget {
   const IField({
@@ -17,6 +18,7 @@ class IField extends StatelessWidget {
     this.minLine = 1,
     this.borderRadious = 90,
     this.contentVerticalPadding = 15,
+    this.textAlign = TextAlign.start,
     super.key,
   });
 
@@ -35,6 +37,7 @@ class IField extends StatelessWidget {
   final int? minLine;
   final double borderRadious;
   final double contentVerticalPadding;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +57,7 @@ class IField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       readOnly: readOnly,
+      textAlign: textAlign,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadious),
@@ -63,7 +67,7 @@ class IField extends StatelessWidget {
             borderRadious,
           ),
           borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
+            color: context.theme.colorScheme.primary,
           ),
         ),
         contentPadding: EdgeInsets.symmetric(

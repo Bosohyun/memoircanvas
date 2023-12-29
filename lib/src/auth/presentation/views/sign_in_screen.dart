@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
-import 'package:memoircanvas/core/common/widgets/gradient_background.dart';
+
 import 'package:memoircanvas/core/common/widgets/rounded_button.dart';
-import 'package:memoircanvas/core/res/fonts.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
 import 'package:memoircanvas/core/res/media_res.dart';
+
 import 'package:memoircanvas/core/utils/core_utils.dart';
 import 'package:memoircanvas/src/auth/data/models/user_model.dart';
 import 'package:memoircanvas/src/auth/presentation/bloc/auth_bloc.dart';
@@ -39,44 +40,37 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: BlocConsumer<AuthBloc, AuthState>(
-          listener: (_, state) {
+          listener: (_, state) async {
             if (state is AuthError) {
               CoreUtils.showSnackBar(context, state.message);
             } else if (state is SignedIn) {
-              context
-                  .read<UserProvider>()
-                  .initUser(state.user as LocalUserModel);
-              Navigator.pushReplacementNamed(context, Dashboard.routeName);
+              await Future.delayed(const Duration(milliseconds: 500));
+              if (mounted) {
+                context
+                    .read<UserProvider>()
+                    .initUser(state.user as LocalUserModel);
+                Navigator.pushReplacementNamed(context, Dashboard.routeName);
+              }
             }
           },
           builder: (context, state) {
-            return GradientBackground(
-              image: MediaRes.authGradientBackground,
-              child: SafeArea(
+            return Scaffold(
+              backgroundColor: context.theme.colorScheme.background,
+              body: SafeArea(
                 child: Center(
                   child: ListView(
                     shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     children: [
-                      const Text(
-                        'Easy to learn, discover more skills. ',
-                        style: TextStyle(
-                            fontFamily: Fonts.aeonik,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 32),
-                      ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: context.height * 0.25,
+                        child: Image.asset(MediaRes.signInIconImage),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Sign in to your account',
-                            style: TextStyle(fontSize: 14),
-                          ),
                           Baseline(
-                            baseline: 100,
+                            baseline: 50,
                             baselineType: TextBaseline.alphabetic,
                             child: TextButton(
                               onPressed: () {
@@ -90,16 +84,10 @@ class _SignInScreenState extends State<SignInScreen> {
                           )
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       SignInForm(
                           emailController: emailController,
                           passwordController: passwordController,
                           formKey: formKey),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -109,9 +97,16 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: const Text('Forgot Password?'),
                         ),
                       ),
-                      const SizedBox(height: 30),
                       if (state is AuthLoading)
                         const Center(child: CircularProgressIndicator())
+                      else if (state is SignedIn)
+                        const Center(
+                          child: Icon(
+                            Icons.done,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                        )
                       else
                         RoundedButton(
                           label: 'Sign In',
