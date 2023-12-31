@@ -63,6 +63,7 @@ dependencies:
   cached_network_image: ^3.3.0
   fast_image_resizer: ^0.0.2
   flutter_dotenv: ^5.1.0
+  settings_ui: ^2.0.2
 
 
 

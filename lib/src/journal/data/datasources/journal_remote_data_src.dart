@@ -148,15 +148,58 @@ class JournalRemoteDataSrcImpl extends JournalRemoteDataSrc {
       );
     }
 
+    final modifiedJournal = '$journal\n\n${dotenv.env['GEN_IMAGE_HELPER']}';
+
     try {
+      late String finalJournal;
+      final gptUri = Uri.parse('https://api.openai.com/v1/chat/completions');
+      final gpt_header = {
+        'Authorization': 'Bearer ${dotenv.env['OPENAI_API_KEY']}',
+        'Content-Type': 'application/json'
+      };
+
+      final gpt_body = jsonEncode(
+        {
+          "model": "gpt-3.5-turbo",
+          "messages": [
+            {
+              "role": "user",
+              "content": modifiedJournal,
+            }
+          ]
+        },
+      );
+
+      print(modifiedJournal);
+
+      final gptResponse =
+          await http.post(gptUri, headers: gpt_header, body: gpt_body);
+
+      if (gptResponse.statusCode == 200) {
+        final gptResponseData = jsonDecode(gptResponse.body);
+        final gptResponseText =
+            gptResponseData['choices'][0]['message']['content'];
+        finalJournal = gptResponseText.toString();
+      } else {
+        throw const ServerException(
+            message: 'Failed to get the modified text', statusCode: '505');
+      }
+
+      print(finalJournal);
+
       final uri = Uri.parse('https://api.openai.com/v1/images/generations');
       final headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${dotenv.env['OPENAI_API_KEY']}}',
+        'Authorization': 'Bearer ${dotenv.env['OPENAI_API_KEY']}',
       };
 
       final body = jsonEncode(
-        {"model": "dall-e-2", "prompt": journal, "n": 1, "size": "1024x1024"},
+        {
+          "model": "dall-e-2",
+          "prompt": finalJournal,
+          "n": 1,
+          "size": "256x256"
+        },
       );
 
       final response = await http.post(uri, headers: headers, body: body);

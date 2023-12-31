@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:memoircanvas/core/extensions/context_extension.dart';
 import 'package:memoircanvas/core/res/colors.dart';
 
 class CoreUtils {
@@ -45,5 +46,116 @@ class CoreUtils {
       return File(image.path);
     }
     return null;
+  }
+
+  static void showCustomDialog(
+    BuildContext context, {
+    required String title,
+    required String content,
+    required String actionText,
+    required double height,
+    required Color buttonHighlightColor,
+    required Color buttonTextColor,
+    bool isCancelBtn = true,
+    required Function() action,
+  }) {
+    showGeneralDialog(
+      context: context,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (_, __, ___) {
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(30)),
+            height: height,
+            width: 300,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                padding: const EdgeInsets.only(left: 15, top: 15),
+                height: 45,
+                width: 300,
+                decoration: BoxDecoration(
+                    color: context.theme.colorScheme.primary,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30))),
+                child: Text(title,
+                    style: context.theme.textTheme.displaySmall
+                        ?.copyWith(color: Colors.white, fontSize: 18)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(
+                  content,
+                  style: context.theme.textTheme.displaySmall?.copyWith(
+                      color: context.theme.colorScheme.onPrimary, fontSize: 15),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  isCancelBtn
+                      ? TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: context.theme.textTheme.displaySmall
+                                ?.copyWith(fontSize: 15),
+                          ))
+                      : const SizedBox.shrink(),
+                  TextButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 3)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        buttonHighlightColor,
+                      ),
+                    ),
+                    onPressed: action,
+                    child: Text(
+                      actionText,
+                      style: context.theme.textTheme.displaySmall
+                          ?.copyWith(fontSize: 14, color: buttonTextColor),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
+            ]),
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        Tween<Offset> tween;
+        if (anim.status == AnimationStatus.reverse) {
+          tween = Tween(begin: const Offset(-1, 0), end: Offset.zero);
+        } else {
+          tween = Tween(begin: const Offset(1, 0), end: Offset.zero);
+        }
+
+        return SlideTransition(
+          position: tween.animate(anim),
+          child: FadeTransition(
+            opacity: anim,
+            child: child,
+          ),
+        );
+      },
+    );
   }
 }
