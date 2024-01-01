@@ -23,7 +23,7 @@ class _JournalSmallTileState extends State<JournalSmallTile> {
     return Slidable(
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
-        extentRatio: 0.48,
+        extentRatio: 0.24,
         children: [
           Padding(
             padding: const EdgeInsets.all(4.0),
@@ -82,31 +82,6 @@ class _JournalSmallTileState extends State<JournalSmallTile> {
           ),
 
           //share
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: MaterialButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              color: context.theme.colorScheme.primary,
-              onPressed: () {},
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.share,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    'Share',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
       child: Card(
@@ -148,35 +123,7 @@ class _JournalSmallTileState extends State<JournalSmallTile> {
                     ),
                   );
                 },
-              )
-              // child: Image.network(
-              //   widget.journal.imageURL,
-              //   fit: BoxFit.fill,
-              //   loadingBuilder: (BuildContext context, Widget child,
-              //       ImageChunkEvent? loadingProgress) {
-              //     if (loadingProgress == null) {
-              //       return child;
-              //     } // Image is fully loaded
-              //     return const Center(
-              //       child: CircularProgressIndicator(),
-              //     );
-              //   },
-              // ),
-
-              //           CachedNetworkImage(
-              // width: context.width,
-              // height: context.width * 0.9,
-              // imageUrl: journal.imageURL,
-              // fit: BoxFit.fill,
-              // progressIndicatorBuilder: (context, url, progress) {
-              //   return Center(
-              //     child: CircularProgressIndicator(
-              //       value: progress.progress,
-              //     ),
-              //   );
-              // },
-              // ),
-              ),
+              )),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -178,7 +178,6 @@ class _ReminiscenceBodyState extends State<ReminiscenceBody> {
               ))
                 JournalTile(
                   journal: journal,
-                  onTap: () {},
                 ),
           ],
         );

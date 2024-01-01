@@ -56,6 +56,7 @@ class CoreUtils {
     required double height,
     required Color buttonHighlightColor,
     required Color buttonTextColor,
+    double width = 300,
     bool isCancelBtn = true,
     required Function() action,
   }) {
@@ -68,13 +69,13 @@ class CoreUtils {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(30)),
             height: height,
-            width: 300,
+            width: width,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
                 padding: const EdgeInsets.only(left: 15, top: 15),
                 height: 45,
-                width: 300,
+                width: width,
                 decoration: BoxDecoration(
                     color: context.theme.colorScheme.primary,
                     borderRadius: const BorderRadius.only(

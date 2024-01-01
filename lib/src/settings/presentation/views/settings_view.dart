@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 import 'package:memoircanvas/core/extensions/context_extension.dart';
 import 'package:memoircanvas/core/utils/core_utils.dart';
@@ -16,6 +17,40 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  sendEmail() async {
+    final Email email = Email(
+      body: '',
+      subject: '',
+      recipients: ['kbh900220@gmail.com'],
+      cc: [],
+      bcc: [],
+      attachmentPaths: [],
+      isHTML: false,
+    );
+
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (error) {
+      String title = 'Unable to send email';
+
+      String message =
+          "Unable to use the default mail app, making it difficult to send inquiries directly through the app.\n\nPlease contact the following email for assistance, and a response will be provided kindly:)\n\nkbh900220@gmail.com";
+
+      if (mounted) {
+        CoreUtils.showCustomDialog(context,
+            height: 300,
+            title: title,
+            content: message,
+            buttonHighlightColor: context.theme.colorScheme.primary,
+            buttonTextColor: Colors.white,
+            isCancelBtn: false,
+            actionText: 'Ok', action: () {
+          Navigator.pop(context);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,7 +201,9 @@ class _SettingsViewState extends State<SettingsView> {
           SettingTile(
               leadingIcon: const Icon(Icons.account_circle),
               title: 'Send Feedback',
-              onTap: () {}),
+              onTap: () async {
+                sendEmail();
+              }),
         ],
       ),
     );
