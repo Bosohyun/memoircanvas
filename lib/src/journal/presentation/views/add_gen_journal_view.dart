@@ -67,6 +67,7 @@ class _JournalViewState extends State<AddGenJournalView> {
                     formKey: formKey,
                     focusNode: textFocusNode,
                   ),
+                  const SizedBox(height: 30),
                   Align(
                     child: ElevatedButton(
                       style: ButtonStyle(

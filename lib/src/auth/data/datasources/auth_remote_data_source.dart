@@ -150,16 +150,6 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           await _authClient.currentUser?.updateDisplayName(userData as String);
           await _updateUserData({'fullName': userData});
 
-        case UpdateUserAction.profilePic:
-          final ref = _dbClient
-              .ref()
-              .child('profile_pics/${_authClient.currentUser?.uid}');
-
-          await ref.putFile(userData as File);
-          final url = await ref.getDownloadURL();
-          await _authClient.currentUser?.updatePhotoURL(url);
-          await _updateUserData({'profilePic': url});
-
         case UpdateUserAction.password:
           if (_authClient.currentUser?.email == null) {
             throw const ServerException(
@@ -176,8 +166,6 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           await _authClient.currentUser?.updatePassword(
             newData['newPassword'] as String,
           );
-        case UpdateUserAction.bio:
-          await _updateUserData({'bio': userData});
       }
     } on FirebaseException catch (e) {
       throw ServerException(
@@ -203,7 +191,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
             uid: user.uid,
             email: user.email ?? fallbackEmail,
             fullName: user.displayName ?? '',
-            numberOfJournals: 0,
+            remainingGen: 2,
           ).toMap(),
         );
   }

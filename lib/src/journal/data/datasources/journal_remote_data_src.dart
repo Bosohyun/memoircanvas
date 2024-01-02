@@ -148,6 +148,9 @@ class JournalRemoteDataSrcImpl extends JournalRemoteDataSrc {
       );
     }
 
+    // load 'users' firebase collection
+    final userDoc = await _firestore.collection('users').doc(user.uid).get();
+
     final modifiedJournal = '$journal\n\n${dotenv.env['GEN_IMAGE_HELPER']}';
 
     try {
@@ -206,6 +209,7 @@ class JournalRemoteDataSrcImpl extends JournalRemoteDataSrc {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
+        userDoc.reference.update({'remainingGen': userDoc['remainingGen'] - 1});
         return responseData['data'][0]['url'];
       } else {
         throw const ServerException(

@@ -12,10 +12,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           );
         } else if (sl<FirebaseAuth>().currentUser != null) {
           final user = sl<FirebaseAuth>().currentUser!;
+
           final localUser = LocalUserModel(
             uid: user.uid,
             email: user.email ?? '',
-            numberOfJournals: 0,
             fullName: user.displayName ?? '',
           );
           context.userProvider.initUser(localUser);
