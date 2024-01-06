@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -17,6 +18,19 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
+
   sendEmail() async {
     final Email email = Email(
       body: '',
@@ -159,24 +173,167 @@ class _SettingsViewState extends State<SettingsView> {
             title: 'Delete Account',
             color: context.theme.colorScheme.error,
             onTap: () {
-              CoreUtils.showCustomDialog(context,
-                  height: 180,
+              final providerData =
+                  FirebaseAuth.instance.currentUser?.providerData.first;
+              if (providerData!.providerId == 'password') {
+                CoreUtils.showCustomDialog(
+                  context,
+                  height: 280,
                   title: 'Delete Account',
-                  content: 'Are you sure you want to delete your account?',
+                  content: 'Please enter your password to delete your account',
                   buttonHighlightColor: context.theme.colorScheme.error,
                   buttonTextColor: Colors.white,
-                  actionText: 'Delete', action: () async {
-                final navigator = Navigator.of(context);
+                  controller: passwordController,
+                  actionText: 'Delete',
+                  action: () async {
+                    try {
+                      await FirebaseAuth.instance.currentUser!
+                          .reauthenticateWithCredential(
+                        EmailAuthProvider.credential(
+                          email: FirebaseAuth.instance.currentUser!.email!,
+                          password: passwordController.text,
+                        ),
+                      );
 
-                await FirebaseAuth.instance.currentUser?.delete();
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Account deleted successfully'),
+                            backgroundColor: context.theme.colorScheme.primary,
+                          ),
+                        );
 
-                unawaited(
-                  navigator.pushNamedAndRemoveUntil(
-                    '/',
-                    (route) => false,
-                  ),
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
+
+                        //users collection
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .delete();
+
+                        await FirebaseAuth.instance.currentUser!.delete();
+                      }
+
+                      if (mounted) {
+                        final navigator = Navigator.of(context);
+                        unawaited(
+                          navigator.pushNamedAndRemoveUntil(
+                            '/',
+                            (route) => false,
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        CoreUtils.showCustomDialog(context,
+                            height: 160,
+                            title: 'Error',
+                            content: 'Incorrect password',
+                            buttonHighlightColor:
+                                context.theme.colorScheme.error,
+                            buttonTextColor: Colors.white,
+                            isCancelBtn: false,
+                            actionText: 'Ok', action: () {
+                          Navigator.pop(context);
+                        });
+                      }
+                    }
+                  },
                 );
-              });
+              } else if (providerData.providerId == 'google.com') {
+                CoreUtils.showCustomDialog(
+                  context,
+                  height: 280,
+                  title: 'Delete Account',
+                  content: 'Please enter your email address to delete account',
+                  controller: passwordController,
+                  buttonHighlightColor: context.theme.colorScheme.error,
+                  buttonTextColor: Colors.white,
+                  actionText: 'Delete',
+                  action: () async {
+                    if (passwordController.text !=
+                        FirebaseAuth.instance.currentUser!.email) {
+                      if (mounted) {
+                        CoreUtils.showCustomDialog(context,
+                            height: 160,
+                            title: 'Error',
+                            content: 'Incorrect email',
+                            buttonHighlightColor:
+                                context.theme.colorScheme.error,
+                            buttonTextColor: Colors.white,
+                            isCancelBtn: false,
+                            actionText: 'Ok', action: () {
+                          Navigator.pop(context);
+                        });
+                      }
+                      return;
+                    }
+
+                    try {
+                      //get google auth credential
+                      final googleCredential = GoogleAuthProvider.credential(
+                          accessToken: (await FirebaseAuth.instance.currentUser!
+                              .getIdToken(true)));
+
+                      await FirebaseAuth.instance.currentUser!
+                          .reauthenticateWithCredential(
+                        googleCredential,
+                      );
+
+                      //delete user
+
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Account deleted successfully'),
+                            backgroundColor: context.theme.colorScheme.primary,
+                          ),
+                        );
+
+                        //users collection
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .delete();
+
+                        await FirebaseAuth.instance.currentUser!.delete();
+                      }
+
+                      if (mounted) {
+                        Navigator.pop(context);
+                      }
+
+                      if (mounted) {
+                        final navigator = Navigator.of(context);
+                        unawaited(
+                          navigator.pushNamedAndRemoveUntil(
+                            '/',
+                            (route) => false,
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        CoreUtils.showCustomDialog(context,
+                            height: 160,
+                            title: 'Error',
+                            content: 'Incorrect password',
+                            buttonHighlightColor:
+                                context.theme.colorScheme.error,
+                            buttonTextColor: Colors.white,
+                            isCancelBtn: false,
+                            actionText: 'Ok', action: () {
+                          Navigator.pop(context);
+                        });
+                      }
+                    }
+                  },
+                );
+              } else {
+                return;
+              }
             },
             trailingIcon: null,
           ),

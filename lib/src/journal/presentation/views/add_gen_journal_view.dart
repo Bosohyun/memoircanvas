@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
 
 import 'package:memoircanvas/core/common/widgets/nested_back_button.dart';
 import 'package:memoircanvas/core/extensions/context_extension.dart';
@@ -67,7 +68,16 @@ class _JournalViewState extends State<AddGenJournalView> {
                     formKey: formKey,
                     focusNode: textFocusNode,
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
+                  Align(
+                    child: Text(
+                        'You can generate ${context.read<UserProvider>().user!.remainingGen} more images today.',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: context.theme.colorScheme.onPrimary,
+                        )),
+                  ),
+                  const SizedBox(height: 20),
                   Align(
                     child: ElevatedButton(
                       style: ButtonStyle(
@@ -91,27 +101,33 @@ class _JournalViewState extends State<AddGenJournalView> {
                             createdAt: DateTime.now(),
                           );
 
-                          await context
-                              .read<JournalCubit>()
-                              .genJournalImage(tempJournal.diary);
-                          if (context.mounted) {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              useSafeArea: true,
-                              builder: (_) => Dialog(
-                                insetPadding: const EdgeInsets.all(20),
-                                alignment: Alignment.lerp(
-                                    Alignment.bottomCenter,
-                                    Alignment.topCenter,
-                                    0.8),
-                                backgroundColor:
-                                    context.theme.colorScheme.background,
-                                child: JournalPreview(
-                                  tempJournal: tempJournal,
+                          if (context.read<UserProvider>().user!.remainingGen! >
+                              0) {
+                            await context
+                                .read<JournalCubit>()
+                                .genJournalImage(tempJournal.diary);
+                            if (context.mounted) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                useSafeArea: true,
+                                builder: (_) => Dialog(
+                                  insetPadding: const EdgeInsets.all(20),
+                                  alignment: Alignment.lerp(
+                                      Alignment.bottomCenter,
+                                      Alignment.topCenter,
+                                      0.8),
+                                  backgroundColor:
+                                      context.theme.colorScheme.background,
+                                  child: JournalPreview(
+                                    tempJournal: tempJournal,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
+                          } else {
+                            CoreUtils.showSnackBar(
+                                context, 'You have no more image generation');
                           }
                         }
                       },

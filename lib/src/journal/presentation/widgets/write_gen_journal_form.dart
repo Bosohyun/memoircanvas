@@ -133,7 +133,6 @@ class _WriteJournalFormState extends State<WriteGenJournalForm> {
             borderRadious: 20,
             contentVerticalPadding: 20,
           ),
-          SizedBox(height: context.height * 0.05),
         ],
       ),
     );

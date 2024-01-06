@@ -68,4 +68,15 @@ class AuthRepoImpl extends AuthRepo {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     }
   }
+
+  @override
+  ResultFuture<LocalUser> signInWithGoogle() async {
+    try {
+      final result = await _remoteDataSource.signInWithGoogle();
+
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    }
+  }
 }

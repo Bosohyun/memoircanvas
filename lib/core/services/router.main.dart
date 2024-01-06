@@ -10,7 +10,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             create: (_) => sl<OnBoardingCubit>(),
             child: const OnBoardingScreen(),
           );
-        } else if (sl<FirebaseAuth>().currentUser != null) {
+        } else if (sl<FirebaseAuth>().currentUser != null &&
+            sl<FirebaseAuth>().currentUser!.emailVerified) {
           final user = sl<FirebaseAuth>().currentUser!;
 
           final localUser = LocalUserModel(
@@ -18,6 +19,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             email: user.email ?? '',
             fullName: user.displayName ?? '',
           );
+
           context.userProvider.initUser(localUser);
           return const Dashboard();
         }

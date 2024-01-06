@@ -79,6 +79,8 @@ class _HomeBodyState extends State<HomeBody> {
       },
       builder: (context, state) {
         if (state is JournalsLoaded) {
+          //currentUser
+
           return Column(
             children: [
               Container(

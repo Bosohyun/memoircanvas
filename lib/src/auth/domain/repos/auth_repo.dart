@@ -12,6 +12,8 @@ abstract class AuthRepo {
     required String password,
   });
 
+  ResultFuture<LocalUser> signInWithGoogle();
+
   ResultFuture<void> signUp({
     required String email,
     required String password,

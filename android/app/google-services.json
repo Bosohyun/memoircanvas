@@ -12,7 +12,20 @@
           "package_name": "com.bosohyun.memoircanvas"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "80976286501-ae4o70jeasuko8rn93c0ks8s81e0ln5v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bosohyun.memoircanvas",
+            "certificate_hash": "1eae020ba18acbca9cae8cdcaca3a464a7dbfc49"
+          }
+        },
+        {
+          "client_id": "80976286501-u8diod3efpu1hjfkudof4fmbur09m92h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA_YKD18Xpjpj7WOQio7CtmuRqablc2T8M"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80976286501-u8diod3efpu1hjfkudof4fmbur09m92h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "80976286501-59fbddksn0p0hs52brroo5te8p213suc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bosohyun.memoircanvas"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memoircanvas/core/enums/updata_user.dart';
 import 'package:memoircanvas/core/errors/exceptions.dart';
 import 'package:memoircanvas/core/utils/constants.dart';
@@ -21,6 +21,9 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<LocalUserModel> signInWithGoogle();
+
   Future<void> signUp(
       {required String email,
       required String password,
@@ -37,13 +40,17 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     required FirebaseAuth authClient,
     required FirebaseFirestore cloudStoreClient,
     required FirebaseStorage dbClient,
+    required GoogleSignIn googleSignIn,
   })  : _authClient = authClient,
         _cloudStoreClient = cloudStoreClient,
-        _dbClient = dbClient;
+        _dbClient = dbClient,
+        _googleSignIn = googleSignIn;
 
   final FirebaseAuth _authClient;
   final FirebaseFirestore _cloudStoreClient;
   final FirebaseStorage _dbClient;
+  final GoogleSignIn _googleSignIn;
+
   @override
   Future<void> forgotPassword(String email) async {
     try {
@@ -105,6 +112,66 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       throw ServerException(
         message: e.toString(),
         statusCode: '505',
+      );
+    }
+  }
+
+  @override
+  Future<LocalUserModel> signInWithGoogle() async {
+    final GoogleSignInAccount? googleSignInAccount =
+        await _googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await _authClient.signInWithCredential(credential);
+
+        final user = userCredential.user;
+
+        if (user == null) {
+          throw const ServerException(
+            message: 'Please try again later',
+            statusCode: 'Unkown Error',
+          );
+        }
+
+        var userData = await _getUserData(user.uid);
+
+        if (userData.exists) {
+          return LocalUserModel.fromMap(userData.data()!);
+        }
+
+        await _setUserData(user, googleSignInAccount.email);
+
+        userData = await _getUserData(user.uid);
+
+        return LocalUserModel.fromMap(userData.data()!);
+      } on FirebaseAuthException catch (e) {
+        throw ServerException(
+          message: e.message ?? 'Error Ouccured',
+          statusCode: e.code,
+        );
+      } on ServerException {
+        rethrow;
+      } catch (e, s) {
+        debugPrintStack(stackTrace: s);
+        throw ServerException(
+          message: e.toString(),
+          statusCode: '505',
+        );
+      }
+    } else {
+      throw const ServerException(
+        message: 'Please try again later',
+        statusCode: 'Unkown Error',
       );
     }
   }

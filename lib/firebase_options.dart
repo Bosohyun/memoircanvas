@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '80976286501',
     projectId: 'memoircanvas-f3c8b',
     storageBucket: 'memoircanvas-f3c8b.appspot.com',
+    androidClientId: '80976286501-ae4o70jeasuko8rn93c0ks8s81e0ln5v.apps.googleusercontent.com',
+    iosClientId: '80976286501-59fbddksn0p0hs52brroo5te8p213suc.apps.googleusercontent.com',
     iosBundleId: 'com.bosohyun.memoircanvas',
   );
 }

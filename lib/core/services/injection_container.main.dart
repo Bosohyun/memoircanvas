@@ -32,12 +32,14 @@ Future<void> _initAuth() async {
       () => AuthBloc(
         signIn: sl(),
         signUp: sl(),
+        signInWithGoogle: sl(),
         forgotPassword: sl(),
         updateUser: sl(),
       ),
     )
     ..registerLazySingleton(() => SignIn(sl()))
     ..registerLazySingleton(() => SignUp(sl()))
+    ..registerLazySingleton(() => SignInGoogle(sl()))
     ..registerLazySingleton(() => ForgotPassword(sl()))
     ..registerLazySingleton(() => UpdateUser(sl()))
     ..registerLazySingleton<AuthRepo>(() => AuthRepoImpl(sl()))
@@ -46,11 +48,13 @@ Future<void> _initAuth() async {
         authClient: sl(),
         cloudStoreClient: sl(),
         dbClient: sl(),
+        googleSignIn: sl(),
       ),
     )
     ..registerLazySingleton(() => FirebaseAuth.instance)
     ..registerLazySingleton(() => FirebaseFirestore.instance)
-    ..registerLazySingleton(() => FirebaseStorage.instance);
+    ..registerLazySingleton(() => FirebaseStorage.instance)
+    ..registerLazySingleton(() => GoogleSignIn());
 }
 
 Future<void> _initJournal() async {
