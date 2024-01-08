@@ -89,6 +89,13 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         );
       }
 
+      if (user.emailVerified == false) {
+        throw const ServerException(
+          message: 'Please verify your email',
+          statusCode: 'Unkown Error',
+        );
+      }
+
       var userData = await _getUserData(user.uid);
 
       if (userData.exists) {
@@ -188,8 +195,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       );
 
       await userCred.user?.updateDisplayName(fullName);
-      await userCred.user?.updatePhotoURL(kDefaultAvatar);
-      await _setUserData(_authClient.currentUser!, email);
+      await userCred.user?.sendEmailVerification();
+
+      // await _setUserData(_authClient.currentUser!, email);
     } on FirebaseAuthException catch (e) {
       throw ServerException(
         message: e.message ?? 'Error Ouccured',

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
 import 'package:memoircanvas/core/common/widgets/rounded_button.dart';
 import 'package:memoircanvas/core/extensions/context_extension.dart';
@@ -8,6 +9,7 @@ import 'package:memoircanvas/core/res/media_res.dart';
 import 'package:memoircanvas/core/utils/core_utils.dart';
 import 'package:memoircanvas/src/auth/data/models/user_model.dart';
 import 'package:memoircanvas/src/auth/presentation/bloc/auth_bloc.dart';
+import 'package:memoircanvas/src/auth/presentation/views/email_verification_screen.dart';
 import 'package:memoircanvas/src/auth/presentation/views/sign_in_screen.dart';
 import 'package:memoircanvas/src/auth/presentation/widgets/sign_up_form.dart';
 import 'package:memoircanvas/src/dashboard/presentation/views/dashboard.dart';
@@ -45,14 +47,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
         listener: (_, state) async {
           if (state is AuthError) {
             CoreUtils.showSnackBar(context, state.message);
-          } else if (state is SignedUp) {
+          } else if (state is EmailVerificationSent) {
             await Future.delayed(const Duration(milliseconds: 500));
+
             if (mounted) {
-              context.read<AuthBloc>().add(SignInEvent(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  ));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                    value: context.read<AuthBloc>(),
+                    child: const EmailVerificationScreen(),
+                  ),
+                ),
+              );
             }
+            // if (mounted) {
+            //   context.read<AuthBloc>().add(SignInEvent(
+            //         email: emailController.text.trim(),
+            //         password: passwordController.text.trim(),
+            //       ));
+            // }
           } else if (state is SignedIn) {
             context.read<UserProvider>().initUser(state.user as LocalUserModel);
             Navigator.pushReplacementNamed(context, Dashboard.routeName);

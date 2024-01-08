@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:memoircanvas/core/enums/updata_user.dart';
 import 'package:memoircanvas/src/auth/domain/entities/user.dart';
 import 'package:memoircanvas/src/auth/domain/usecases/forgot_password.dart';
@@ -31,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<SignInEvent>(_signInHandler);
     on<SignInWithGoogleEvent>(_signInWithGoogleHandler);
+
     on<SignUpEvent>(_signUpHandler);
     on<ForgotPasswordEvent>(_forgotPasswordHandler);
     on<UpdateUserEvent>(_updateUserHandler);
@@ -83,7 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(failure.errorMessage)),
-      (_) => emit(const SignedUp()),
+      (_) => emit(const EmailVerificationSent()),
     );
   }
 

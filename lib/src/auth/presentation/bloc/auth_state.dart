@@ -24,6 +24,10 @@ class SignedIn extends AuthState {
   List<Object> get props => [user];
 }
 
+class EmailVerificationSent extends AuthState {
+  const EmailVerificationSent();
+}
+
 class SignedUp extends AuthState {
   const SignedUp();
 }
