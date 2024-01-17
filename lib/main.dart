@@ -33,24 +33,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DashBoardController(),
+        ),
+      ],
+      child: MultiBlocProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (_) => UserProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => DashBoardController(),
-          ),
+          BlocProvider(create: (_) => sl<JournalCubit>()),
         ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => sl<JournalCubit>()),
-          ],
-          child: MaterialApp(
-            title: 'Memoir Canvas',
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            onGenerateRoute: generateRoute,
-          ),
-        ));
+        child: MaterialApp(
+          title: 'Memoir Canvas',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          onGenerateRoute: generateRoute,
+        ),
+      ),
+    );
   }
 }

@@ -99,7 +99,9 @@ class _SettingsViewState extends State<SettingsView> {
               leadingIcon: Icon(Icons.account_circle,
                   color: context.theme.colorScheme.primary),
               title: 'Subscribe to Premium',
-              onTap: () {}),
+              onTap: () {
+                Navigator.pushNamed(context, '/premium');
+              }),
           const SizedBox(
             height: 20,
           ),

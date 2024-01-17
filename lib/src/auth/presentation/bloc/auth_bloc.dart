@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+
 import 'package:memoircanvas/core/enums/updata_user.dart';
 import 'package:memoircanvas/src/auth/domain/entities/user.dart';
 import 'package:memoircanvas/src/auth/domain/usecases/forgot_password.dart';

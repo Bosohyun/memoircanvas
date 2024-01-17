@@ -13,6 +13,7 @@ import 'package:memoircanvas/src/journal/presentation/views/jouranl_details_scre
 import 'package:memoircanvas/src/on_boarding/data/datasources/on_boarding_local_data_source.dart';
 import 'package:memoircanvas/src/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:memoircanvas/src/on_boarding/presentation/views/on_boarding_screen.dart';
+import 'package:memoircanvas/src/premium/presentation/views/premium.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
 import '../../src/auth/presentation/views/sign_in_screen.dart';

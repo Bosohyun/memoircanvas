@@ -63,6 +63,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         (_) => JournalDetailsScreen(settings.arguments! as Journal),
         settings: settings,
       );
+
+    case Premium.routeName:
+      return _pageBuilder(
+        (_) => const Premium(),
+        settings: settings,
+      );
+
     default:
       return _pageBuilder((_) => const PageUnderConstruction(),
           settings: settings);

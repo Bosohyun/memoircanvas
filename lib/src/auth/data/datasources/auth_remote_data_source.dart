@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memoircanvas/core/enums/updata_user.dart';
 import 'package:memoircanvas/core/errors/exceptions.dart';
-import 'package:memoircanvas/core/utils/constants.dart';
+
 import 'package:memoircanvas/core/utils/typedefs.dart';
 import 'package:memoircanvas/src/auth/data/models/user_model.dart';
 

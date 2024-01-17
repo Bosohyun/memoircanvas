@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+
 import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
 import 'package:memoircanvas/core/common/widgets/rounded_button.dart';
 import 'package:memoircanvas/core/extensions/context_extension.dart';
