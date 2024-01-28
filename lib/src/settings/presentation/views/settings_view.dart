@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:memoircanvas/core/extensions/context_extension.dart';
 import 'package:memoircanvas/core/utils/core_utils.dart';
@@ -19,15 +20,20 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
+    passwordController = TextEditingController();
+    emailController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
     passwordController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -98,6 +104,7 @@ class _SettingsViewState extends State<SettingsView> {
           SettingTile(
               leadingIcon: Icon(Icons.account_circle,
                   color: context.theme.colorScheme.primary),
+              color: context.theme.colorScheme.primary,
               title: 'Subscribe to Premium',
               onTap: () {
                 Navigator.pushNamed(context, '/premium');
@@ -124,6 +131,7 @@ class _SettingsViewState extends State<SettingsView> {
             leadingIcon: Icon(Icons.info_outline_rounded,
                 color: context.theme.colorScheme.primary),
             title: 'Account Info',
+            color: context.theme.colorScheme.primary,
             trailingIcon: null,
             onTap: () {
               CoreUtils.showCustomDialog(context,
@@ -141,9 +149,11 @@ class _SettingsViewState extends State<SettingsView> {
             },
           ),
           SettingTile(
-            leadingIcon: const Icon(
+            leadingIcon: Icon(
               Icons.logout,
+              color: context.theme.colorScheme.primary,
             ),
+            color: context.theme.colorScheme.primary,
             title: 'Logout',
             onTap: () async {
               CoreUtils.showCustomDialog(context,
@@ -245,17 +255,18 @@ class _SettingsViewState extends State<SettingsView> {
                   },
                 );
               } else if (providerData.providerId == 'google.com') {
+                print(providerData.providerId);
                 CoreUtils.showCustomDialog(
                   context,
                   height: 280,
                   title: 'Delete Account',
                   content: 'Please enter your email address to delete account',
-                  controller: passwordController,
+                  controller: emailController,
                   buttonHighlightColor: context.theme.colorScheme.error,
                   buttonTextColor: Colors.white,
                   actionText: 'Delete',
                   action: () async {
-                    if (passwordController.text !=
+                    if (emailController.text !=
                         FirebaseAuth.instance.currentUser!.email) {
                       if (mounted) {
                         CoreUtils.showCustomDialog(context,
@@ -274,15 +285,26 @@ class _SettingsViewState extends State<SettingsView> {
                     }
 
                     try {
-                      //get google auth credential
-                      final googleCredential = GoogleAuthProvider.credential(
-                          accessToken: (await FirebaseAuth.instance.currentUser!
-                              .getIdToken(true)));
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .delete();
 
-                      await FirebaseAuth.instance.currentUser!
-                          .reauthenticateWithCredential(
-                        googleCredential,
+                      //get google auth credential
+                      GoogleSignInAccount? googleSignInAccount =
+                          await _googleSignIn.signIn();
+                      GoogleSignInAuthentication googleSignInAuthentication =
+                          await googleSignInAccount!.authentication;
+                      //get google credentials
+                      final AuthCredential credential =
+                          GoogleAuthProvider.credential(
+                        accessToken: googleSignInAuthentication.accessToken,
+                        idToken: googleSignInAuthentication.idToken,
                       );
+
+                      //reauthenticate user
+                      await FirebaseAuth.instance.currentUser!
+                          .reauthenticateWithCredential(credential);
 
                       //delete user
 
@@ -295,10 +317,6 @@ class _SettingsViewState extends State<SettingsView> {
                         );
 
                         //users collection
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
-                            .delete();
 
                         await FirebaseAuth.instance.currentUser!.delete();
                       }
@@ -321,7 +339,7 @@ class _SettingsViewState extends State<SettingsView> {
                         CoreUtils.showCustomDialog(context,
                             height: 160,
                             title: 'Error',
-                            content: 'Incorrect password',
+                            content: 'Incorrect email',
                             buttonHighlightColor:
                                 context.theme.colorScheme.error,
                             buttonTextColor: Colors.white,
@@ -358,7 +376,11 @@ class _SettingsViewState extends State<SettingsView> {
             height: 10,
           ),
           SettingTile(
-              leadingIcon: const Icon(Icons.account_circle),
+              color: context.theme.colorScheme.primary,
+              leadingIcon: Icon(
+                Icons.account_circle,
+                color: context.theme.colorScheme.primary,
+              ),
               title: 'Send Feedback',
               onTap: () async {
                 sendEmail();

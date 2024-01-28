@@ -4,22 +4,25 @@ class LocalUser extends Equatable {
   const LocalUser({
     required this.uid,
     required this.email,
-    required this.fullName,
+    required this.username,
     this.remainingGen,
+    this.createdAt,
   });
 
-  const LocalUser.empty()
+  LocalUser.empty()
       : this(
           uid: '',
           email: '',
-          fullName: '',
+          username: '',
           remainingGen: 0,
+          createdAt: DateTime.now(),
         );
 
   final String uid;
   final String email;
-  final String fullName;
+  final String username;
   final int? remainingGen;
+  final DateTime? createdAt;
 
   bool get isAdmin => email == 'kbh900220@gmail.com';
 
@@ -27,12 +30,13 @@ class LocalUser extends Equatable {
   List<Object?> get props => [
         uid,
         email,
-        fullName,
+        username,
         remainingGen,
+        createdAt,
       ];
 
   @override
   String toString() {
-    return 'LocalUser{uid: $uid, email: $email,fullName: $fullName, remainingGen: $remainingGen}';
+    return 'LocalUser{uid: $uid, email: $email,username: $username, remainingGen: $remainingGen ,}';
   }
 }

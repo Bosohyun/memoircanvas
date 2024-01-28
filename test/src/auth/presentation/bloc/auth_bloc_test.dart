@@ -121,7 +121,7 @@ void main() {
         SignUpEvent(
           email: tSignUpParams.email,
           password: tSignUpParams.password,
-          fullName: tSignUpParams.fullName,
+          username: tSignUpParams.username,
         ),
       ),
       expect: () => [
@@ -146,7 +146,7 @@ void main() {
         SignUpEvent(
           email: tSignUpParams.email,
           password: tSignUpParams.password,
-          fullName: tSignUpParams.fullName,
+          username: tSignUpParams.username,
         ),
       ),
       expect: () => [

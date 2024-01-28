@@ -12,25 +12,25 @@ class SignUp extends FutureUsecaseWithParams<void, SignUpParams> {
   ResultFuture<void> call(SignUpParams params) => _repo.signUp(
       email: params.email,
       password: params.password,
-      fullName: params.fullName);
+      username: params.username);
 }
 
 class SignUpParams extends Equatable {
   const SignUpParams({
     required this.email,
     required this.password,
-    required this.fullName,
+    required this.username,
   });
 
   const SignUpParams.empty()
       : email = '',
         password = '',
-        fullName = '';
+        username = '';
 
   final String email;
   final String password;
-  final String fullName;
+  final String username;
 
   @override
-  List<Object?> get props => [email, password, fullName];
+  List<Object?> get props => [email, password, username];
 }

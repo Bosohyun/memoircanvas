@@ -8,7 +8,7 @@ class SignUpForm extends StatefulWidget {
     required this.emailController,
     required this.passwordController,
     required this.confirmPasswordController,
-    required this.fullNameController,
+    required this.usernameController,
     required this.formKey,
   });
 
@@ -16,7 +16,7 @@ class SignUpForm extends StatefulWidget {
   final TextEditingController passwordController;
 
   final TextEditingController confirmPasswordController;
-  final TextEditingController fullNameController;
+  final TextEditingController usernameController;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -34,7 +34,7 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         children: [
           IField(
-            controller: widget.fullNameController,
+            controller: widget.usernameController,
             hintText: 'Full Name',
             keyboardType: TextInputType.name,
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:memoircanvas/core/common/app/providers/user_provider.dart';
 
 import 'package:memoircanvas/core/extensions/context_extension.dart';
 import 'package:memoircanvas/core/res/media_res.dart';
@@ -237,6 +238,7 @@ class _HomeBodyState extends State<HomeBody> {
                           ),
                         ),
                         onPressed: () {
+                          //
                           showModalBottomSheet<void>(
                               context: context,
                               backgroundColor:

@@ -22,7 +22,7 @@ void main() {
   });
 
   const tPassword = 'Test password';
-  const tFullName = 'Test full name';
+  const tusername = 'Test full name';
   const tEmail = 'Test email';
   const tUpdateAction = UpdateUserAction.password;
   const tUserData = 'New password';
@@ -147,14 +147,14 @@ void main() {
       when(() => remoteDataSource.signUp(
           email: any(named: 'email'),
           password: any(named: 'password'),
-          fullName: any(named: 'fullName'))).thenAnswer(
+          username: any(named: 'username'))).thenAnswer(
         (_) => Future.value(),
       );
 
       final result = await repoImpl.signUp(
         email: tEmail,
         password: tPassword,
-        fullName: tFullName,
+        username: tusername,
       );
 
       expect(result, const Right<dynamic, void>(null));
@@ -163,7 +163,7 @@ void main() {
         () => remoteDataSource.signUp(
           email: tEmail,
           password: tPassword,
-          fullName: tFullName,
+          username: tusername,
         ),
       ).called(1);
 
@@ -176,7 +176,7 @@ void main() {
       when(() => remoteDataSource.signUp(
           email: any(named: 'email'),
           password: any(named: 'password'),
-          fullName: any(named: 'fullName'))).thenThrow(
+          username: any(named: 'username'))).thenThrow(
         const ServerException(
           message: 'User already exists',
           statusCode: '400',
@@ -186,7 +186,7 @@ void main() {
       final result = await repoImpl.signUp(
         email: tEmail,
         password: tPassword,
-        fullName: tFullName,
+        username: tusername,
       );
 
       expect(

@@ -70,7 +70,8 @@ class CoreUtils {
             type: MaterialType.transparency,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(30)),
+                  color: context.theme.colorScheme.tertiary,
+                  borderRadius: BorderRadius.circular(30)),
               height: height,
               width: width,
               child: Column(
@@ -80,9 +81,9 @@ class CoreUtils {
                       padding: const EdgeInsets.only(left: 15, top: 15),
                       height: 45,
                       width: width,
-                      decoration: BoxDecoration(
-                          color: context.theme.colorScheme.primary,
-                          borderRadius: const BorderRadius.only(
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 74, 109, 167),
+                          borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),
                       child: Text(title,

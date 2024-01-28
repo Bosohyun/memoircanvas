@@ -40,12 +40,12 @@ class AuthRepoImpl extends AuthRepo {
   ResultFuture<void> signUp(
       {required String email,
       required String password,
-      required String fullName}) async {
+      required String username}) async {
     try {
       await _remoteDataSource.signUp(
         email: email,
         password: password,
-        fullName: fullName,
+        username: username,
       );
 
       return const Right(null);

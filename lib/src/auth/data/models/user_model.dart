@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:memoircanvas/core/utils/typedefs.dart';
 import 'package:memoircanvas/src/auth/domain/entities/user.dart';
 
@@ -5,37 +6,42 @@ class LocalUserModel extends LocalUser {
   const LocalUserModel({
     required super.uid,
     required super.email,
-    required super.fullName,
+    required super.username,
     super.remainingGen,
+    super.createdAt,
   });
 
-  const LocalUserModel.empty()
+  LocalUserModel.empty()
       : this(
           uid: '',
           email: '',
-          fullName: '',
+          username: '',
           remainingGen: 0,
+          createdAt: DateTime.now(),
         );
 
   LocalUserModel.fromMap(DataMap map)
       : super(
           uid: map['uid'] as String,
           email: map['email'] as String,
-          fullName: map['fullName'] as String,
+          username: map['username'] as String,
           remainingGen: map['remainingGen'] as int,
+          createdAt: (map['createdAt'] as Timestamp).toDate(),
         );
 
   LocalUserModel copyWith({
     String? uid,
     String? email,
-    String? fullName,
+    String? username,
     int? remainingGen,
+    DateTime? createdAt,
   }) {
     return LocalUserModel(
       uid: uid ?? this.uid,
       email: email ?? this.email,
-      fullName: fullName ?? this.fullName,
+      username: username ?? this.username,
       remainingGen: remainingGen ?? this.remainingGen,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -43,8 +49,9 @@ class LocalUserModel extends LocalUser {
     return {
       'uid': uid,
       'email': email,
-      'fullName': fullName,
+      'username': username,
       'remainingGen': remainingGen,
+      'createdAt': createdAt,
     };
   }
 }

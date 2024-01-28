@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -27,7 +27,7 @@ abstract class AuthRemoteDataSource {
   Future<void> signUp(
       {required String email,
       required String password,
-      required String fullName});
+      required String username});
 
   Future<void> updateUser({
     required UpdateUserAction action,
@@ -95,10 +95,10 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           statusCode: 'Unkown Error',
         );
       }
-
+      //user doc from user auth
       var userData = await _getUserData(user.uid);
 
-      if (userData.exists) {
+      if (userData.data()!.containsKey('username')) {
         return LocalUserModel.fromMap(userData.data()!);
       }
 
@@ -152,7 +152,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
         var userData = await _getUserData(user.uid);
 
-        if (userData.exists) {
+        if (userData.data()!.containsKey('username')) {
           return LocalUserModel.fromMap(userData.data()!);
         }
 
@@ -187,14 +187,14 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   Future<void> signUp(
       {required String email,
       required String password,
-      required String fullName}) async {
+      required String username}) async {
     try {
       final userCred = await _authClient.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      await userCred.user?.updateDisplayName(fullName);
+      await userCred.user?.updateDisplayName(username);
       await userCred.user?.sendEmailVerification();
 
       // await _setUserData(_authClient.currentUser!, email);
@@ -223,7 +223,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
         case UpdateUserAction.displayName:
           await _authClient.currentUser?.updateDisplayName(userData as String);
-          await _updateUserData({'fullName': userData});
+          await _updateUserData({'username': userData});
 
         case UpdateUserAction.password:
           if (_authClient.currentUser?.email == null) {
@@ -265,9 +265,11 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           LocalUserModel(
             uid: user.uid,
             email: user.email ?? fallbackEmail,
-            fullName: user.displayName ?? '',
+            username: user.displayName ?? '',
             remainingGen: 2,
+            createdAt: DateTime.now(),
           ).toMap(),
+          SetOptions(merge: true),
         );
   }
 

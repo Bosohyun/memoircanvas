@@ -17,7 +17,7 @@ abstract class AuthRepo {
   ResultFuture<void> signUp({
     required String email,
     required String password,
-    required String fullName,
+    required String username,
   });
 
   ResultFuture<void> updateUser({

@@ -25,7 +25,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
-  final fullNameController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void dispose() {
     emailController.dispose();
-    fullNameController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -101,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     SignUpForm(
                       emailController: emailController,
-                      fullNameController: fullNameController,
+                      usernameController: usernameController,
                       passwordController: passwordController,
                       confirmPasswordController: confirmPasswordController,
                       formKey: formKey,
@@ -131,7 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             context.read<AuthBloc>().add(SignUpEvent(
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim(),
-                                  fullName: fullNameController.text.trim(),
+                                  username: usernameController.text.trim(),
                                 ));
                           }
                         },

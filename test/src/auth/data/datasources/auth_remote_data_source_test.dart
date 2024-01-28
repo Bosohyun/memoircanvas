@@ -73,7 +73,7 @@ void main() {
   });
 
   const tPassword = 'Test password';
-  const tFullName = 'Test full name';
+  const tusername = 'Test full name';
   const tEmail = 'Test email';
 
   final tFirebaseAuthException = FirebaseAuthException(
@@ -224,7 +224,7 @@ void main() {
       final call = dataSource.signUp(
         email: tEmail,
         password: tPassword,
-        fullName: tFullName,
+        username: tusername,
       );
 
       expect(call, completes);
@@ -239,7 +239,7 @@ void main() {
       await untilCalled(() => userCredential.user?.updateDisplayName(any()));
       await untilCalled(() => userCredential.user?.updatePhotoURL(any()));
 
-      verify(() => userCredential.user?.updateDisplayName(tFullName)).called(1);
+      verify(() => userCredential.user?.updateDisplayName(tusername)).called(1);
       verify(() => userCredential.user?.updatePhotoURL(kDefaultAvatar))
           .called(1);
 
@@ -264,7 +264,7 @@ void main() {
           () => call(
             email: tEmail,
             password: tPassword,
-            fullName: tFullName,
+            username: tusername,
           ),
           throwsA(
             isA<ServerException>(),
@@ -294,10 +294,10 @@ void main() {
 
       await dataSource.updateUser(
         action: UpdateUserAction.displayName,
-        userData: tFullName,
+        userData: tusername,
       );
 
-      verify(() => mockUser.updateDisplayName(tFullName)).called(1);
+      verify(() => mockUser.updateDisplayName(tusername)).called(1);
 
       verifyNever(() => mockUser.updatePhotoURL(any()));
       verifyNever(() => mockUser.updateEmail(any()));
@@ -306,7 +306,7 @@ void main() {
       final userData =
           await cloudStoreClient.collection('users').doc(mockUser.uid).get();
 
-      expect(userData.data()!['fullName'], tFullName);
+      expect(userData.data()!['username'], tusername);
     });
 
     test(

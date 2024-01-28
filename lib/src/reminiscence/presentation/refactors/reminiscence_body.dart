@@ -30,7 +30,7 @@ class _ReminiscenceBodyState extends State<ReminiscenceBody> {
     return _events[day] ?? [];
   }
 
-  void _getCourses() {
+  void _getJournals() {
     context.read<JournalCubit>().getJournals();
   }
 
@@ -52,7 +52,7 @@ class _ReminiscenceBodyState extends State<ReminiscenceBody> {
     _filteredJournals = [];
     _events = {};
 
-    _getCourses();
+    _getJournals();
   }
 
   @override
@@ -67,10 +67,10 @@ class _ReminiscenceBodyState extends State<ReminiscenceBody> {
         CoreUtils.showSnackBar(context, state.message);
       } else if (state is JournalAdded) {
         CoreUtils.showSnackBar(context, 'Journal Added');
-        _getCourses();
+        _getJournals();
       } else if (state is JournalDeleted) {
         CoreUtils.showSnackBar(context, 'Journal Deleted');
-        _getCourses();
+        _getJournals();
       }
     }, builder: (context, state) {
       if (state is LoadingJournals) {

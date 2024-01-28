@@ -11,7 +11,7 @@ void main() {
 
   const tEmail = 'Test email';
   const tPassword = 'Test password';
-  const tFullName = 'Test full name';
+  const tusername = 'Test full name';
 
   setUp(() {
     repo = MockAuthRepo();
@@ -22,21 +22,21 @@ void main() {
     when(
       () => repo.signUp(
           email: any(named: 'email'),
-          fullName: any(
-            named: 'fullName',
+          username: any(
+            named: 'username',
           ),
           password: any(named: 'password')),
     ).thenAnswer((_) async => const Right(null));
 
     final result = await usecase(const SignUpParams(
-        email: tEmail, password: tPassword, fullName: tFullName));
+        email: tEmail, password: tPassword, username: tusername));
 
     expect(result, const Right<dynamic, void>(null));
 
     verify(() => repo.signUp(
           email: tEmail,
           password: tPassword,
-          fullName: tFullName,
+          username: tusername,
         )).called(1);
 
     verifyNoMoreInteractions(repo);
