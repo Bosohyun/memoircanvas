@@ -152,7 +152,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
         var userData = await _getUserData(user.uid);
 
-        if (userData.data()!.containsKey('username')) {
+        if (userData.exists) {
           return LocalUserModel.fromMap(userData.data()!);
         }
 

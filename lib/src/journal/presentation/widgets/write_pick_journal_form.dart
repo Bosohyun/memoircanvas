@@ -40,74 +40,78 @@ class _WritePickJournalFormState extends State<WritePickJournalForm> {
       child: Column(
         children: [
           Text('Weather', style: context.theme.textTheme.displaySmall),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text = Weather.sunny.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.day_sunny,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text = Weather.sunny.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.day_sunny,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text = Weather.cloudy.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.cloudy,
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text =
+                        Weather.cloudy.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.cloudy,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text = Weather.windy.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.strong_wind,
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text = Weather.windy.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.strong_wind,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text = Weather.rainy.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.rain,
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text = Weather.rainy.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.rain,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text = Weather.snowy.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.snow,
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text = Weather.snowy.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.snow,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text = Weather.foggy.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.fog,
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text = Weather.foggy.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.fog,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.weatherController.text =
-                      Weather.thunderstorm.toUpperCase();
-                },
-                icon: const Icon(
-                  WeatherIcons.thunderstorm,
+                IconButton(
+                  onPressed: () {
+                    widget.weatherController.text =
+                        Weather.thunderstorm.toUpperCase();
+                  },
+                  icon: const Icon(
+                    WeatherIcons.thunderstorm,
+                  ),
+                  color: context.theme.colorScheme.primary,
                 ),
-                color: context.theme.colorScheme.primary,
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(
             height: 10,

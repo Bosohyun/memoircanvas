@@ -18,7 +18,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             uid: user.uid,
             email: user.email ?? '',
             username: user.displayName ?? '',
-            createdAt: user.metadata.creationTime,
           );
 
           context.userProvider.initUser(localUser);
